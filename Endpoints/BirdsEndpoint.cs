@@ -7,12 +7,12 @@ namespace KataOfTheDayPoc.Endpoints;
 internal static class BirdsEndpoint
 {
     private static List<Bird> _birds = new();
-    private static int _nextId = 2; // 2 b/c of example data
+    private static int _nextId = 1;
 
     // Fake some startup data
     static BirdsEndpoint()
     {
-        _birds.Add(new Bird(1, "Eastern Bluebird", "Sialia sialis", new List<int> { 1 }));
+        _birds.Add(new Bird(_nextId++, "Eastern Bluebird", "Sialia sialis", new List<int> { 1 }));
     }
 
     /* ************************************************************
