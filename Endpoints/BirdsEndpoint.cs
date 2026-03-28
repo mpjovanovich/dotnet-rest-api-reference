@@ -1,15 +1,14 @@
 using Microsoft.AspNetCore.Http.HttpResults;
-using KataOfTheDayPoc.Models;
-using KataOfTheDayPoc.DTOs;
+using DotnetRestApiReference.Models;
+using DotnetRestApiReference.DTOs;
 
-namespace KataOfTheDayPoc.Endpoints;
+namespace DotnetRestApiReference.Endpoints;
 
 internal static class BirdsEndpoint
 {
     private static List<Bird> _birds = new();
     private static int _nextId = 1;
 
-    // Fake some startup data
     static BirdsEndpoint()
     {
         _birds.Add(new Bird(_nextId++, "Eastern Bluebird", "Sialia sialis", new List<int> { 1 }));
@@ -34,15 +33,9 @@ internal static class BirdsEndpoint
     // HANDLERS
     * ************************************************************/
 
-// curl http://localhost:5001/birds
     private static Ok<List<BirdResponse>> GetBirds() =>
         TypedResults.Ok(_birds.Select(ToResponse).ToList());
 
-/*
-curl -v -X POST http://localhost:5001/birds \
--H "Content-Type: application/json" \
--d '{"commonName":"American Robin","species":"Turdus migratorius","regionIds":[1]}'
-*/
     // private static Results<Created<BirdResponse>, BadRequest> CreateBird(CreateBirdRequest request)
     private static Created<BirdResponse> CreateBird(CreateBirdRequest request)
     {

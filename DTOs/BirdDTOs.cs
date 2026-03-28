@@ -1,4 +1,4 @@
-namespace KataOfTheDayPoc.DTOs;
+namespace DotnetRestApiReference.DTOs;
 
 // Requests
 internal record CreateBirdRequest(string CommonName, string Species, List<int> RegionIds);

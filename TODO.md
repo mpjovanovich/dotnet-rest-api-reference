@@ -2,11 +2,9 @@
 
 V1:
 
-- Add a basic "birds and regions" data model
-- Get REST API endpoints to work without DAL; just console logging or in memory
-  - Use JSON; Postman or curl to test
-  - TypedResponse
-  - Data type validation and error handling
+- Split BirdEndpoint as was done with Regions
+- Structured error handling?
+- Data type validation and error handling
 
 V2:
 
