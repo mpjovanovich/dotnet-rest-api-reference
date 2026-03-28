@@ -1,7 +1,5 @@
 # TODO
 
-This is a "learn the basics" sandbox project before starting the actual kata so that I have a general direction to start from.
-
 V1:
 
 - Add a basic "birds and regions" data model
