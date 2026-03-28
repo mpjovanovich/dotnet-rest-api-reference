@@ -26,9 +26,13 @@ Contains init sql scripts and/or migrations where applicable
 
 Contains the data transfer objects for the API. These are the contracts for requests and responses.
 
+Does not change between branches.
+
 ### `Endpoints/`
 
 Contains route registration and HTTP mapping logic.
+
+Does not change between branches.
 
 ### `Handlers/`
 
@@ -37,6 +41,8 @@ Contains input validation and delegates to the service layer.
 ### `Models/`
 
 Contains the data models for the API.
+
+Does not change between branches.
 
 ### `Services/`
 
