@@ -1,0 +1,151 @@
+{
+  "info": {
+    "_postman_id": "871ae680-33b7-431b-8bb0-cab82dbb1504",
+    "name": ".NET Minimal API Reference Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "44884013"
+  },
+  "item": [
+    {
+      "name": "Regions",
+      "item": [
+        {
+          "name": "regions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/regions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "regions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "regions",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Test Region\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/regions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "regions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "regions",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Test Region Update\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/regions/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "regions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "regions",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/regions/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "regions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Birds",
+      "item": [
+        {
+          "name": "birds",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "birds",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"commonName\": \"The Common Bird\",\r\n    \"species\": \"Blabidus Blabird\",\r\n    \"regionIds\": [1]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/birds",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "birds"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
