@@ -15,15 +15,6 @@ internal static class BirdsHandler
     }
 
     /* ************************************************************
-    // ROUTES
-    * ************************************************************/
-    public static void MapRoutes(this IEndpointRouteBuilder app)
-    {
-        app.MapGet("/birds", GetBirds);
-        app.MapPost("/birds", CreateBird);
-    }
-
-    /* ************************************************************
     // HELPERS
     * ************************************************************/
     private static BirdResponse ToResponse(Bird b) =>

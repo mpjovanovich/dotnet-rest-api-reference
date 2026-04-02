@@ -2,9 +2,8 @@
 
 V1:
 
-- Split BirdEndpoint as was done with Regions
-- Structured error handling?
-- Data type validation and error handling
+- Complete CRUD for Birds and Regions
+- Validation (incoming request and domain model) and structured error handling?
 
 V2:
 

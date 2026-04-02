@@ -32,6 +32,12 @@ internal static class RegionsHandler
     internal static Results<Created<RegionResponse>, BadRequest<string>> CreateRegion(
         CreateRegionRequest request)
     {
+        // Check for empty name
+        if (string.IsNullOrEmpty(request.Name))
+        {
+            return TypedResults.BadRequest("Region name cannot be empty");
+        }
+
         // Check for duplicate name
         if (_regions.Any(r => r.Name == request.Name))
         {
@@ -44,5 +50,31 @@ internal static class RegionsHandler
         );
         _regions.Add(region);
         return TypedResults.Created($"/regions/{region.Id}", ToResponse(region));
+    }
+
+    internal static Results<Ok<RegionResponse>, NotFound<string>, BadRequest<string>> UpdateRegion(
+        int id,
+        UpdateRegionRequest request)
+    {
+        // Check for empty name
+        if (string.IsNullOrEmpty(request.Name))
+        {
+            return TypedResults.BadRequest("Region name cannot be empty");
+        }
+
+        // Check if region exists
+        var region = _regions.FirstOrDefault(r => r.Id == id);
+        if (region == null)
+        {
+            return TypedResults.NotFound("Region not found");
+        }
+
+        // Records are readonly, so we need to create a new instance and update
+        // the list
+        var updated = region with { Name = request.Name };
+        var index = _regions.FindIndex(r => r.Id == id);
+        _regions[index] = updated;
+
+        return TypedResults.Ok(ToResponse(updated));
     }
 }
