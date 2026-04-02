@@ -62,7 +62,7 @@ The following branches are planned:
 
 ### no-dal
 
-The most minimalistic branch. It does not use a database or DAL; it simply uses built-in data structures and methods to store and retrieve data.
+The most minimalistic branch. It does not use a database or service layer; it simply uses built-in data structures and methods to store and retrieve data.
 
 ### sqlite-ado
 
