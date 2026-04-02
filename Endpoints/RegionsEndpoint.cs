@@ -9,5 +9,6 @@ internal static class RegionsEndpoint
         app.MapGet("/regions", RegionsHandler.GetRegions);
         app.MapPost("/regions", RegionsHandler.CreateRegion);
         app.MapPut("/regions/{id}", RegionsHandler.UpdateRegion);
+        app.MapDelete("/regions/{id}", RegionsHandler.DeleteRegion);
     }
 }

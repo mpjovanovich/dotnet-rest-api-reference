@@ -77,4 +77,23 @@ internal static class RegionsHandler
 
         return TypedResults.Ok(ToResponse(updated));
     }
+
+    internal static Results<Ok<RegionResponse>, NotFound<string>> DeleteRegion(int id)
+    {
+        // Check if region exists
+        var region = _regions.FirstOrDefault(r => r.Id == id);
+        if (region == null)
+        {
+            return TypedResults.NotFound("Region not found");
+        }
+
+        // Check if region is associated with any birds
+        // TODO: will need an exposed method to check this
+
+        _regions.Remove(region);
+
+        // Whether or not to return the deleted region is an API design decision.
+        // We'll go ahead and return it to confirm that the delete was successful.
+        return TypedResults.Ok(ToResponse(region));
+    }
 }
