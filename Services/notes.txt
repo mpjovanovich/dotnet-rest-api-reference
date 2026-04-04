@@ -1,4 +1,0 @@
-In other branches the service layer will go here.
-
-For this branch there is no "real" data store - it's just a bunch of lists. So
-it's not worth implementing.

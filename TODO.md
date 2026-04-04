@@ -2,8 +2,8 @@
 
 V1:
 
+- Port Bird classes to reflect new layers
 - Complete CRUD for Birds and Regions
-- Validation (incoming request and domain model) and structured error handling?
 
 V2:
 

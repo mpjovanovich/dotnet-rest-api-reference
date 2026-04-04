@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a reference project for a REST API built with .NET Minimal APIs. It is meant as a starting point for new projects and a best practices showcase.
+This is a reference project for a REST API built with .NET Minimal APIs. It is meant to demonstrate the basic layering patterns and architecture for a REST API.
 
 There are several branches, each with a different level of complexity and features.
 
@@ -11,7 +11,7 @@ There are several branches, each with a different level of complexity and featur
 Data moves through the layers in the following order:
 
 ```
-HTTP Request -> Endpoints -> Handlers -> Services
+HTTP Request -> Endpoints -> Services
 ```
 
 ## Project Structure
@@ -30,25 +30,23 @@ Does not change between branches.
 
 ### `Endpoints/`
 
-Contains route registration and HTTP mapping logic.
+- Contains route registration and HTTP mapping logic.
+- Contains input validation.
+- Delegates to the service layer.
+- Does not change between branches.
 
-Does not change between branches.
-
-### `Handlers/`
-
-Contains input validation and delegates to the service layer.
+We have decided not to move handlers into their own classes for this project in favor of simplicity, readability, and locality of code.
 
 ### `Models/`
 
-Contains the data models for the API.
-
-Does not change between branches.
+- Contains the data models for the API.
+- Does not change between branches.
 
 ### `Services/`
 
-Contains the business/domain logic, domain validation, and orchestrates data access.
+- Contains the business/domain logic, domain validation, and orchestrates data access.
 
-We have decided not to implement a separate repository layer for this project. There is no need to abstract the data store, so the complexity is not worth it.
+We have decided not to implement a separate repository layer for this project. There is no need to abstract the data store, so the additional complexity is not worth it.
 
 ### `Program.cs`
 
