@@ -27,6 +27,24 @@
           "response": []
         },
         {
+          "name": "regions/{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/regions/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "regions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "regions",
           "request": {
             "method": "POST",
@@ -53,7 +71,7 @@
           "response": []
         },
         {
-          "name": "regions",
+          "name": "regions/{id}",
           "request": {
             "method": "PUT",
             "header": [],
@@ -80,7 +98,7 @@
           "response": []
         },
         {
-          "name": "regions",
+          "name": "regions/{id}",
           "request": {
             "method": "DELETE",
             "header": [],
@@ -115,7 +133,34 @@
           "name": "birds",
           "request": {
             "method": "GET",
-            "header": []
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/birds",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "birds"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "birds{id}",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/birds/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "birds",
+                "1"
+              ]
+            }
           },
           "response": []
         },
@@ -140,6 +185,60 @@
               ],
               "path": [
                 "birds"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "birds/{id}",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"commonName\": \"The Common Bird's Third Cousin\",\r\n    \"species\": \"Blabidus Blabirdyboy\",\r\n    \"regionIds\": [1,2,3]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/birds/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "birds",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "birds/{id}",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/birds/2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "birds",
+                "2"
               ]
             }
           },

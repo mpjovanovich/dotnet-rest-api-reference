@@ -19,14 +19,14 @@ internal static class RegionsService
     /* ************************************************************
     // Private Methods
     * ************************************************************/
-    private static bool CheckExistsByName(string name)
-    {
-        return _regions.Any(r => r.Name == name);
-    }
-    
     private static bool CheckExistsById(int id)
     {
         return _regions.Any(r => r.Id == id);
+    }
+
+    private static bool CheckUniqueConstraints(Region region)
+    {
+        return !_regions.Any(r => r.Name == region.Name);
     }
 
     /* ************************************************************
@@ -34,11 +34,10 @@ internal static class RegionsService
     * ************************************************************/
     public static Region Create(Region region)
     {
-        // Check if region name is already in use
-        if (CheckExistsByName(region.Name))
+        // Check if region unique constraints are met
+        if (!CheckUniqueConstraints(region))
         {
-            // TODO: Exception type?
-            throw new Exception("Region name must be unique");
+            throw new Exception("Region unique constraints not met");
         }
 
         // Create the region
@@ -53,6 +52,12 @@ internal static class RegionsService
         if (!CheckExistsById(id))
         {
             throw new Exception("Region not found");
+        }
+
+        // Check if region has birds
+        if (BirdsService.GetAll().Any(b => b.RegionIds.Contains(id)))
+        {
+            throw new Exception("Region has birds");
         }
 
         // Delete the region
@@ -79,10 +84,10 @@ internal static class RegionsService
             throw new Exception("Region not found");
         }
 
-        // Check if region name is already in use
-        if (CheckExistsByName(region.Name))
+        // Check if region unique constraints are met
+        if (!CheckUniqueConstraints(region))
         {
-            throw new Exception("Region name must be unique");
+            throw new Exception("Region unique constraints not met");
         }
 
         // Update the region

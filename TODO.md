@@ -2,8 +2,7 @@
 
 V1:
 
-- Port Bird classes to reflect new layers
-- Complete CRUD for Birds and Regions
+- Maybe done at this point?
 
 V2:
 

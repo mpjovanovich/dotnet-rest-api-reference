@@ -53,7 +53,7 @@ internal static class RegionsEndpoint
         * Business logic validation will happen in the service layer
         */
         // Showing a basic example of validation at this layer:
-        // Check for empty name
+        // Check for empty required fields 
         if (string.IsNullOrEmpty(request.Name))
         {
             return TypedResults.BadRequest("Region name cannot be empty");
@@ -62,7 +62,6 @@ internal static class RegionsEndpoint
         /*
         * Delegate to service layer
         */
-        // TODO: Handle exceptions with switch handler in middleware?
         // Create the region
         var region = RegionsService.Create(new Region(0, request.Name));
 

@@ -9,7 +9,7 @@ builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
-// BirdsEndpoint.MapRoutes(app);
+BirdsEndpoint.MapRoutes(app);
 RegionsEndpoint.MapRoutes(app);
 
 app.Run("http://localhost:5001");
