@@ -1,4 +1,4 @@
-namespace DotnetRestApiReference.DTOs;
+namespace DotnetRestApiReference.Api.DTOs;
 
 // Requests
 internal record CreateRegionRequest(string Name);

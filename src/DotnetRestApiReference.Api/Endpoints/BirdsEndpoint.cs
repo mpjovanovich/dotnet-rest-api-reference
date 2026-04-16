@@ -1,28 +1,28 @@
 using Microsoft.AspNetCore.Http.HttpResults;
-using DotnetRestApiReference.Models;
-using DotnetRestApiReference.DTOs;
-using DotnetRestApiReference.Services;
+using DotnetRestApiReference.Api.DTOs;
+using DotnetRestApiReference.Domain.Models;
+using DotnetRestApiReference.Domain.Services.Interfaces.Services;
 
-namespace DotnetRestApiReference.Endpoints;
+namespace DotnetRestApiReference.Api.Endpoints;
 
 internal static class BirdsEndpoint
 {
-    public static void MapRoutes(this IEndpointRouteBuilder app)
+    public static void MapRoutes(this IEndpointRouteBuilder app, IBirdsService birdsService)
     {
-        app.MapPost("/birds", CreateBird);
-        app.MapGet("/birds", GetBirds);
-        app.MapGet("/birds/{id}", GetBird);
-        app.MapPut("/birds/{id}", UpdateBird);
-        app.MapDelete("/birds/{id}", DeleteBird);
+        app.MapPost("/birds", CreateBird(birdsService));
+        app.MapGet("/birds", GetBirds(birdsService));
+        app.MapGet("/birds/{id}", GetBird(birdsService));
+        app.MapPut("/birds/{id}", UpdateBird(birdsService));
+        app.MapDelete("/birds/{id}", DeleteBird(birdsService));
     }
 
     private static BirdResponse ToResponse(Bird r) =>
         new (r.Id, r.CommonName, r.Species, r.RegionIds);
 
-    private static Ok<List<BirdResponse>> GetBirds() =>
-        TypedResults.Ok(BirdsService.GetAll().Select(ToResponse).ToList());
+    private static Ok<List<BirdResponse>> GetBirds(IBirdsService birdsService) =>
+        TypedResults.Ok(birdsService.GetAll().Select(ToResponse).ToList());
 
-    private static Results<Ok<BirdResponse>, NotFound<string>> GetBird(int id)
+    private static Results<Ok<BirdResponse>, NotFound<string>> GetBird(IBirdsService birdsService, int id)
     {
         /*
         * Validate HTTP Request at this layer
@@ -33,7 +33,7 @@ internal static class BirdsEndpoint
         /*
         * Delegate to service layer
         */
-        var bird = BirdsService.GetById(id);
+        var bird = birdsService.GetById(id);
         if (bird is null)
         {
             return TypedResults.NotFound("Bird not found");
@@ -46,7 +46,7 @@ internal static class BirdsEndpoint
     }
 
     private static Results<Created<BirdResponse>, BadRequest<string>> CreateBird(
-        CreateBirdRequest request)
+        IBirdsService birdsService, CreateBirdRequest request)
     {
         /*
         * Validate HTTP Request at this layer
@@ -63,7 +63,7 @@ internal static class BirdsEndpoint
         * Delegate to service layer
         */
         // Create the bird
-        var bird = BirdsService.Create(new Bird(0, request.CommonName, request.Species, request.RegionIds));
+        var bird = birdsService.Create(new Bird(0, request.CommonName, request.Species, request.RegionIds));
 
         /*
         * Return HTTP Response
@@ -72,6 +72,7 @@ internal static class BirdsEndpoint
     }
 
     internal static Ok<BirdResponse> UpdateBird(
+        IBirdsService birdsService,
         int id,
         UpdateBirdRequest request)
     {
@@ -84,7 +85,7 @@ internal static class BirdsEndpoint
         /*
         * Delegate to service layer
         */
-        var bird = BirdsService.Update(new Bird(id, request.CommonName, request.Species, request.RegionIds));
+        var bird = birdsService.Update(new Bird(id, request.CommonName, request.Species, request.RegionIds));
 
         /*
         * Return HTTP Response
@@ -92,7 +93,7 @@ internal static class BirdsEndpoint
         return TypedResults.Ok(ToResponse(bird));
     }
 
-    internal static Ok<BirdResponse> DeleteBird(int id)
+    internal static Ok<BirdResponse> DeleteBird(IBirdsService birdsService, int id)
     {
         /*
         * Validate HTTP Request at this layer
@@ -103,7 +104,7 @@ internal static class BirdsEndpoint
         /*
         * Delegate to service layer
         */
-        var bird = BirdsService.Delete(id);
+        var bird = birdsService.Delete(id);
 
         /*
         * Return HTTP Response

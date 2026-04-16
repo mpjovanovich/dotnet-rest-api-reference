@@ -1,4 +1,4 @@
-namespace DotnetRestApiReference.DTOs;
+namespace DotnetRestApiReference.Api.DTOs;
 
 // Requests
 internal record CreateBirdRequest(string CommonName, string Species, List<int> RegionIds);

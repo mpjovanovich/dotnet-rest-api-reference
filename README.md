@@ -16,6 +16,22 @@ HTTP Request -> Endpoints -> Services -> Repositories -> (store)
 
 _Note that earlier branches may not have all layers implemented. This is intentional to keep them focused and simple._
 
+## Project Structure
+
+### DotnetRestApiReference.Api
+
+This is the composition root for the application. It is responsible for configuring the application and its dependencies.
+
+This corresponds to the interface layer, handling the HTTP requests and responses.
+
+### DotnetRestApiReference.Domain
+
+This is the domain layer. It is responsible for the business logic and domain validation.
+
+### DotnetRestApiReference.Infrastructure
+
+This is the infrastructure layer. It is responsible for implementing data access and persistence logic.
+
 ## Branches
 
 The following branches are planned:

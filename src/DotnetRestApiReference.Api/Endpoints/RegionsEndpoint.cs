@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Http.HttpResults;
-using DotnetRestApiReference.Models;
-using DotnetRestApiReference.DTOs;
-using DotnetRestApiReference.Services;
+using DotnetRestApiReference.Api.DTOs;
+using DotnetRestApiReference.Domain.Models;
+using DotnetRestApiReference.Domain.Services.Interfaces.Services;
 
-namespace DotnetRestApiReference.Endpoints;
+namespace DotnetRestApiReference.Api.Endpoints;
 
 internal static class RegionsEndpoint
 {
