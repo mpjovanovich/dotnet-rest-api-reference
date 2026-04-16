@@ -11,72 +11,42 @@ There are several branches, each with a different level of complexity and featur
 Data moves through the layers in the following order:
 
 ```
-HTTP Request -> Endpoints -> Services
+HTTP Request -> Endpoints -> Services -> Repositories -> (store)
 ```
 
-## Project Structure
-
-The project is structured as follows:
-
-### `Data/`
-
-Contains init sql scripts and/or migrations where applicable
-
-### `DTOs/`
-
-Contains the data transfer objects for the API. These are the contracts for requests and responses.
-
-Does not change between branches.
-
-### `Endpoints/`
-
-- Contains route registration and HTTP mapping logic.
-- Contains input validation.
-- Delegates to the service layer.
-- Does not change between branches.
-
-We have decided not to move handlers into their own classes for this project in favor of simplicity, readability, and locality of code.
-
-### `Models/`
-
-- Contains the data models for the API.
-- Does not change between branches.
-
-### `Services/`
-
-- Contains the business/domain logic, domain validation, and orchestrates data access.
-
-We have decided not to implement a separate repository layer for this project. There is no need to abstract the data store, so the additional complexity is not worth it.
-
-### `Program.cs`
-
-Contains the main entry point for the API.
-
-The project additionally has a Postman configuration file in the `Postman/` directory.
+_Note that earlier branches may not have all layers implemented. This is intentional to keep them focused and simple._
 
 ## Branches
 
 The following branches are planned:
 
-### no-dal
+### no-di
 
-The most minimalistic branch. It does not use a database or service layer; it simply uses built-in data structures and methods to store and retrieve data.
+The most minimalistic branch. It does not use a database or repository layer; it uses static classes that have some knowledge of each other. This will be decoupled in future branches.
+
+### pure-di
+
+Splits into projects and indtroduces the necessary seams and interfaces to allow for constructor injection. Still uses an in-memory data store.
+
+### di-container
+
+Uses a DI container to manage dependencies instead of pure DI. Still uses an in-memory data store.
 
 ### sqlite-ado
 
-Uses SQLite with ADO.NET
+Uses SQLite database with ADO.NET
 
 ### sqlite-ef-core
 
-Uses SQLite with EF Core
+Uses SQLite database with EF Core
 
 ### sqlite-dapper
 
-Uses SQLite with Dapper
+Uses SQLite database with Dapper
 
 ### postgres-dapper
 
-Uses Postgres with Dapper
+Uses Postgres database with Dapper
 
 ### vertical-slice
 

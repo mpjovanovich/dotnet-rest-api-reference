@@ -11,7 +11,6 @@ internal static class BirdsService
     // Fake some startup data
     static BirdsService()
     {
-
         _birds.Add(new Bird(_nextId++, "Eastern Bluebird", "Sialia sialis", new List<int> { 1 }));
     }
 

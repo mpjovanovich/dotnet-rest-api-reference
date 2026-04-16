@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using DotnetRestApiReference.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
