@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DotnetRestApiReference.Domain/DotnetRestApiReference.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/DotnetRestApiReference.Api/">
+    <Project Path="src/DotnetRestApiReference.Api/DotnetRestApiReference.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/DotnetRestApiReference.Infrastructure/">
+    <Project Path="src/DotnetRestApiReference.Infrastructure/DotnetRestApiReference.Infrastruture.csproj" />
+  </Folder>
+</Solution>
