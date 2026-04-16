@@ -4,7 +4,7 @@ using DotnetRestApiReference.Domain.Models;
 
 namespace DotnetRestApiReference.Domain.Services;
 
-internal sealed class BirdsService(
+public sealed class BirdsService(
     IBirdsRepository birdsRepository,
     IRegionsRepository regionsRepository
 ) : IBirdsService
