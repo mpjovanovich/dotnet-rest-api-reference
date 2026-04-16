@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using DotnetRestApiReference.Api.DTOs;
 using DotnetRestApiReference.Domain.Models;
-using DotnetRestApiReference.Domain.Services.Interfaces.Services;
+using DotnetRestApiReference.Domain.Interfaces.Services;
 
 namespace DotnetRestApiReference.Api.Endpoints;
 
@@ -9,11 +9,13 @@ internal static class BirdsEndpoint
 {
     public static void MapRoutes(this IEndpointRouteBuilder app, IBirdsService birdsService)
     {
-        app.MapPost("/birds", CreateBird(birdsService));
-        app.MapGet("/birds", GetBirds(birdsService));
-        app.MapGet("/birds/{id}", GetBird(birdsService));
-        app.MapPut("/birds/{id}", UpdateBird(birdsService));
-        app.MapDelete("/birds/{id}", DeleteBird(birdsService));
+        // Since we have no DI container we will use closures via lambda
+        // expressions to pass the service instance to the endpoint.
+        app.MapPost("/birds", (CreateBirdRequest request) => CreateBird(birdsService, request));
+        app.MapGet("/birds", () => GetBirds(birdsService));
+        app.MapGet("/birds/{id}", (int id) => GetBird(birdsService, id));
+        app.MapPut("/birds/{id}", (int id, UpdateBirdRequest request) => UpdateBird(birdsService, id, request));
+        app.MapDelete("/birds/{id}", (int id) => DeleteBird(birdsService, id));
     }
 
     private static BirdResponse ToResponse(Bird r) =>

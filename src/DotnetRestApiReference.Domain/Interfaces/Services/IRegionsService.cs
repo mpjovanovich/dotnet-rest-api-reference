@@ -1,6 +1,6 @@
-namespace DotnetRestApiReference.Domain.Interfaces.Services;
-
 using DotnetRestApiReference.Domain.Models;
+
+namespace DotnetRestApiReference.Domain.Interfaces.Services;
 
 public interface IRegionsService
 {
