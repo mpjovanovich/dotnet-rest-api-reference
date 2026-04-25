@@ -8,4 +8,7 @@
   <Folder Name="/src/DotnetRestApiReference.Infrastructure/">
     <Project Path="src/DotnetRestApiReference.Infrastructure/DotnetRestApiReference.Infrastruture.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DotnetRestApiReference.Tests/DotnetRestApiReference.Tests.csproj" />
+  </Folder>
 </Solution>
