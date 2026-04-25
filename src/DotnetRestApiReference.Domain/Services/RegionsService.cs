@@ -12,21 +12,21 @@ public sealed class RegionsService(
     /* ************************************************************
     // Private Methods
     * ************************************************************/
-    private bool CheckUniqueConstraints(Region region)
-    {
-        return !regionsRepository.ExistsByName(region.Name);
-    }
+    // private bool CheckUniqueConstraints(Region region)
+    // {
+    //     return !regionsRepository.ExistsByName(region.Name);
+    // }
 
     /* ************************************************************
     // Public Methods
     * ************************************************************/
     public Region Create(Region region)
     {
-        // Check if region unique constraints are met
-        if (!CheckUniqueConstraints(region))
-        {
-            throw new Exception("Region unique constraints not met");
-        }
+        // // Check if region unique constraints are met
+        // if (!CheckUniqueConstraints(region))
+        // {
+        //     throw new Exception("Region unique constraints not met");
+        // }
 
         // Create the region
         Region newRegion = new Region(0, region.Name);
@@ -36,18 +36,18 @@ public sealed class RegionsService(
 
     public Region Delete(int id)
     {
-        // Check if region exists
+        // // Check if region exists
         Region? region = regionsRepository.GetById(id);
         if (region is null)
         {
             throw new Exception("Region not found");
         }
 
-        // Check if region has birds
-        if (birdsRepository.AnyInRegion(id))
-        {
-            throw new Exception("Region has birds");
-        }
+        // // Check if region has birds
+        // if (birdsRepository.AnyInRegion(id))
+        // {
+        //     throw new Exception("Region has birds");
+        // }
 
         // Delete the region
         regionsRepository.Delete(id);
@@ -68,17 +68,17 @@ public sealed class RegionsService(
 
     public Region Update(Region region)
     {
-        // Check if region exists
-        if (regionsRepository.GetById(region.Id) is null)
-        {
-            throw new Exception("Region not found");
-        }
+        // // Check if region exists
+        // if (regionsRepository.GetById(region.Id) is null)
+        // {
+        //     throw new Exception("Region not found");
+        // }
 
-        // Check if region unique constraints are met
-        if (!CheckUniqueConstraints(region))
-        {
-            throw new Exception("Region unique constraints not met");
-        }
+        // // Check if region unique constraints are met
+        // if (!CheckUniqueConstraints(region))
+        // {
+        //     throw new Exception("Region unique constraints not met");
+        // }
 
         // Update the region
         region = regionsRepository.Update(region);

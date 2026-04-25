@@ -9,5 +9,4 @@ public interface IRegionsRepository
     Region Add(Region region);
     Region Update(Region region);
     void Delete(int id);
-    bool ExistsByName(string name);
 }

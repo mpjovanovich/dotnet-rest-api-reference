@@ -10,10 +10,10 @@ var app = builder.Build();
 
 // Composition root: build the object graph
 IRegionsRepository regionsRepo = new InMemoryRegionsRepository();
-IBirdsRepository birdsRepo   = new InMemoryBirdsRepository();
+IBirdsRepository birdsRepo   = new InMemoryBirdsRepository( regionsRepo );
 
 IRegionsService regionsService = new RegionsService(regionsRepo, birdsRepo);
-IBirdsService birdsService   = new BirdsService(birdsRepo, regionsRepo);
+IBirdsService birdsService   = new BirdsService(birdsRepo);
 
 // Map endpoints now that services are built
 BirdsEndpoint.MapRoutes(app, birdsService);

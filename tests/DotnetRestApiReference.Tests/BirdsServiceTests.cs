@@ -13,9 +13,9 @@ public class BirdsServiceTests
     {
         // This method sets up in-memory fakes for the tests to use
         IRegionsRepository regions = new InMemoryRegionsRepository();
-        IBirdsRepository birds = new InMemoryBirdsRepository();
+        IBirdsRepository birds = new InMemoryBirdsRepository(regions);
         regions.Add(new Region(0, "Test Region")); // will have id=1
-        return new BirdsService(birds, regions);
+        return new BirdsService(birds);
     }
 
     [Fact]
@@ -71,7 +71,6 @@ public class BirdsServiceTests
         Assert.Equal(result, bird with { Id = result.Id });
     }
 
-    // This actually did catch a bug... needs fixed
     [Fact]
     public void changing_unique_field_does_not_falsely_trigger_unique_error_for_other_unique_field()
     {

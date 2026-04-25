@@ -6,39 +6,14 @@ using DotnetRestApiReference.Domain.Models;
 namespace DotnetRestApiReference.Domain.Services;
 
 public sealed class BirdsService(
-    IBirdsRepository birdsRepository,
-    IRegionsRepository regionsRepository
+    IBirdsRepository birdsRepository
 ) : IBirdsService
 {
-    /* ************************************************************
-    // Private Methods
-    * ************************************************************/
-    private void CheckUniqueConstraints(Bird bird)
-    {
-        if (birdsRepository.ExistsByCommonName(bird.CommonName))
-        {
-            throw new ConflictException("Bird common name already exists");
-        }
-        if (birdsRepository.ExistsBySpecies(bird.Species))
-        {
-            throw new ConflictException("Bird species already exists");
-        }
-    }
-
     /* ************************************************************
     // Public Methods
     * ************************************************************/
     public Bird Create(Bird bird)
     {
-        // Check if bird unique constraints are met
-        CheckUniqueConstraints(bird);
-
-        // Check for invalid region ids
-        if( bird.RegionIds.Any(id => regionsRepository.GetById(id) is null))
-        {
-            throw new NotFoundException("Region", bird.RegionIds);
-        }
-
         // Create the bird
         Bird newBird = new Bird(0, bird.CommonName, bird.Species, bird.RegionIds);
         newBird = birdsRepository.Add(newBird);
@@ -73,21 +48,6 @@ public sealed class BirdsService(
 
     public Bird Update(Bird bird)
     {
-        // Check if bird exists
-        if (birdsRepository.GetById(bird.Id) is null)
-        {
-            throw new NotFoundException("Bird", bird.Id);
-        }
-
-        // Check if bird unique constraints are met
-        CheckUniqueConstraints(bird);
-
-        // Check for invalid region ids
-        if (bird.RegionIds.Any(id => regionsRepository.GetById(id) is null))
-        {
-            throw new NotFoundException("Region", bird.RegionIds);
-        }
-
         // Update the bird
         bird = birdsRepository.Update(bird);
         return bird;
