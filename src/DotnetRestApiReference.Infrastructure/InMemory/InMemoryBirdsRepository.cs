@@ -12,6 +12,11 @@ public class InMemoryBirdsRepository( IRegionsRepository regions ) : IBirdsRepos
     /*
     PRIVATE HELPER METHODS
     */
+    // These are providing functionality that in later versions will be
+    // implemented through database constraints. Because the in-memory
+    // implementation is used for testing, we still need to make sure we have
+    // all of this logic in place to properly test handling of schema invariants
+    // at higher layers, such as the service layer.
     private bool ExistsByCommonName(string name) => _birds.Any(b => b.CommonName == name);
     private bool ExistsBySpecies(string species) => _birds.Any(b => b.Species == species);
     private void EnforceUniqueConstraints(Bird bird, Bird? existingBird = null)
