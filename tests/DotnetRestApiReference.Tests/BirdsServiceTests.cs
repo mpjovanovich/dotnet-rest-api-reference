@@ -7,6 +7,29 @@ namespace DotnetRestApiReference.Tests;
 
 public class UnitTest1
 {
+    [Fact]
+    public void Create_WithDuplicateUniqueConstraint_ThrowsException()
+    {
+        // Arrange
+        IRegionsRepository regionsRepo = new InMemoryRegionsRepository();
+        IBirdsRepository birdsRepo   = new InMemoryBirdsRepository();
+        var birdsService = new BirdsService(birdsRepo, regionsRepo);
+
+        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { });
+        birdsService.Create(bird);
+
+        // duplicate common name
+        bird = new Bird(0, "Test Bird", "New Species", new List<int> { });
+
+        // Act / Assert
+        Assert.Throws<Exception>(() => birdsService.Create(bird));
+
+        // duplicate species
+        bird = new Bird(0, "New Bird", "Test Species", new List<int> { });
+
+        // Act / Assert
+        Assert.Throws<Exception>(() => birdsService.Create(bird));
+    }
 
     [Fact]
     public void Create_WithInvalidRegionId_ThrowsException()
@@ -15,9 +38,9 @@ public class UnitTest1
         IRegionsRepository regionsRepo = new InMemoryRegionsRepository();
         IBirdsRepository birdsRepo   = new InMemoryBirdsRepository();
         var birdsService = new BirdsService(birdsRepo, regionsRepo);
-        var bird = new Bird(1, "Test Bird", "Test Species", new List<int> { 1 });
+        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { 1 });
 
-        // Act
+        // Act / Assert
         var exception = Assert.Throws<Exception>(() => birdsService.Create(bird));
 
         // Assert
@@ -36,7 +59,7 @@ public class UnitTest1
 
         IBirdsRepository birdsRepo   = new InMemoryBirdsRepository();
         var birdsService = new BirdsService(birdsRepo, regionsRepo);
-        var bird = new Bird(1, "Test Bird", "Test Species", new List<int> { 1 });
+        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { 1 });
 
         // Act
         var result = birdsService.Create(bird);
