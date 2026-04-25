@@ -79,7 +79,7 @@ public class BirdsServiceTests
         BirdsService sut = CreateSut();
         var created = sut.Create(new Bird(0, "Test Bird", "Species 1", [1]));
 
-        // Act
+        // Act - update species but leave common name the same
         Bird bird = new Bird(created.Id, "Test Bird", "Species 2", [1]);
         Bird updated = sut.Update(bird);
 

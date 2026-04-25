@@ -9,19 +9,6 @@ public sealed class RegionsService(
     IBirdsRepository birdsRepository
 ) : IRegionsService
 {
-    // TODO: This will move to InMemoryRegionsRepository.cs within the Infrastructure project
-
-    // private List<Region> _regions = new();
-    // private int _nextId = 1;
-
-    // Fake some startup data
-    // public RegionsService()
-    // {
-    //     _regions.Add(new Region(_nextId++, "Eastern United States"));
-    //     _regions.Add(new Region(_nextId++, "Central United States"));
-    //     _regions.Add(new Region(_nextId++, "Western United States"));
-    // }
-
     /* ************************************************************
     // Private Methods
     * ************************************************************/

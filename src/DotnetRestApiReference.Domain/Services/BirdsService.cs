@@ -10,17 +10,6 @@ public sealed class BirdsService(
     IRegionsRepository regionsRepository
 ) : IBirdsService
 {
-    // TODO: This will move to InMemoryBirdsRepository.cs within the Infrastructure project
-
-    // private List<Bird> _birds = new();
-    // private int _nextId = 1;
-
-    // Fake some startup data
-    // public BirdsService()
-    // {
-    //     _birds.Add(new Bird(_nextId++, "Eastern Bluebird", "Sialia sialis", new List<int> { 1 }));
-    // }
-
     /* ************************************************************
     // Private Methods
     * ************************************************************/
