@@ -1,3 +1,4 @@
+using DotnetRestApiReference.Domain.Exceptions;
 using DotnetRestApiReference.Domain.Interfaces.Repositories;
 using DotnetRestApiReference.Domain.Interfaces.Services;
 using DotnetRestApiReference.Domain.Models;
@@ -23,10 +24,16 @@ public sealed class BirdsService(
     /* ************************************************************
     // Private Methods
     * ************************************************************/
-    private bool CheckUniqueConstraints(Bird bird)
+    private void CheckUniqueConstraints(Bird bird)
     {
-        return !birdsRepository.ExistsByCommonName(bird.CommonName)
-            && !birdsRepository.ExistsBySpecies(bird.Species);
+        if (birdsRepository.ExistsByCommonName(bird.CommonName))
+        {
+            throw new ConflictException("Bird common name already exists");
+        }
+        if (birdsRepository.ExistsBySpecies(bird.Species))
+        {
+            throw new ConflictException("Bird species already exists");
+        }
     }
 
     /* ************************************************************
@@ -35,15 +42,12 @@ public sealed class BirdsService(
     public Bird Create(Bird bird)
     {
         // Check if bird unique constraints are met
-        if (!CheckUniqueConstraints(bird))
-        {
-            throw new Exception("Bird unique constraints not met");
-        }
+        CheckUniqueConstraints(bird);
 
         // Check for invalid region ids
         if( bird.RegionIds.Any(id => regionsRepository.GetById(id) is null))
         {
-            throw new Exception("Invalid region ids");
+            throw new NotFoundException("Region", bird.RegionIds);
         }
 
         // Create the bird
@@ -58,7 +62,7 @@ public sealed class BirdsService(
         Bird? bird = birdsRepository.GetById(id);
         if (bird is null)
         {
-            throw new Exception("Bird not found");
+            throw new NotFoundException("Bird", id);
         }
 
         // Delete the bird
@@ -83,19 +87,16 @@ public sealed class BirdsService(
         // Check if bird exists
         if (birdsRepository.GetById(bird.Id) is null)
         {
-            throw new Exception("Bird not found");
+            throw new NotFoundException("Bird", bird.Id);
         }
 
         // Check if bird unique constraints are met
-        if (!CheckUniqueConstraints(bird))
-        {
-            throw new Exception("Bird unique constraints not met");
-        }
+        CheckUniqueConstraints(bird);
 
         // Check for invalid region ids
         if (bird.RegionIds.Any(id => regionsRepository.GetById(id) is null))
         {
-            throw new Exception("Invalid region ids");
+            throw new NotFoundException("Region", bird.RegionIds);
         }
 
         // Update the bird

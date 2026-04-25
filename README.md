@@ -42,7 +42,7 @@ The most minimalistic branch. It does not use a database or repository layer; it
 
 ### pure-di
 
-Splits into projects and indtroduces the necessary seams and interfaces to allow for constructor injection. Still uses an in-memory data store.
+Splits into projects and introduces the necessary seams and interfaces to allow for constructor injection. Still uses an in-memory data store.
 
 ### di-container
 
@@ -67,3 +67,14 @@ Uses Postgres database with Dapper
 ### vertical-slice
 
 Potential vertical slice architecture implementation. Most likely build on top of the sqlite-dapper branch.
+
+## Not covered in this project
+
+These topics will possibly be treated in more depth in future projects, but were left out of this project to keep it focused.
+
+- Testing (only a little included)
+- Validation and error handling patterns (only a little included)
+- Authentication and authorization
+- Logging
+- Monitoring
+- Infrastructure as code - CI/CD pipelines, deployment, etc.

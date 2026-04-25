@@ -1,47 +1,53 @@
-﻿using DotnetRestApiReference.Domain.Interfaces.Repositories;
+﻿using DotnetRestApiReference.Domain.Exceptions;
+using DotnetRestApiReference.Domain.Interfaces.Repositories;
 using DotnetRestApiReference.Domain.Models;
 using DotnetRestApiReference.Domain.Services;
 using DotnetRestApiReference.Infrastructure.InMemory;
 
 namespace DotnetRestApiReference.Tests;
 
-public class UnitTest1
+public class BirdsServiceTests
 {
-    [Fact]
-    public void Create_WithDuplicateUniqueConstraint_ThrowsException()
+
+    private static BirdsService CreateSut()
     {
-        // Arrange
-        IRegionsRepository regionsRepo = new InMemoryRegionsRepository();
-        IBirdsRepository birdsRepo   = new InMemoryBirdsRepository();
-        var birdsService = new BirdsService(birdsRepo, regionsRepo);
-
-        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { });
-        birdsService.Create(bird);
-
-        // duplicate common name
-        bird = new Bird(0, "Test Bird", "New Species", new List<int> { });
-
-        // Act / Assert
-        Assert.Throws<Exception>(() => birdsService.Create(bird));
-
-        // duplicate species
-        bird = new Bird(0, "New Bird", "Test Species", new List<int> { });
-
-        // Act / Assert
-        Assert.Throws<Exception>(() => birdsService.Create(bird));
+        // This method sets up in-memory fakes for the tests to use
+        IRegionsRepository regions = new InMemoryRegionsRepository();
+        IBirdsRepository birds = new InMemoryBirdsRepository();
+        regions.Add(new Region(0, "Test Region")); // will have id=1
+        return new BirdsService(birds, regions);
     }
 
     [Fact]
-    public void Create_WithInvalidRegionId_ThrowsException()
+    public void creating_bird_with_duplicate_unique_field_throws()
     {
         // Arrange
-        IRegionsRepository regionsRepo = new InMemoryRegionsRepository();
-        IBirdsRepository birdsRepo   = new InMemoryBirdsRepository();
-        var birdsService = new BirdsService(birdsRepo, regionsRepo);
-        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { 1 });
+        BirdsService sut = CreateSut();
+
+        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { });
+        sut.Create(bird);
+
+        // This has multiple tests / assertions under a common setup.  It could
+        // arguably be separate tests, but I prefer the convenience for this
+        // small project.
+
+        // duplicate common name
+        bird = new Bird(0, "Test Bird", "New Species", new List<int> { });
+        Assert.Throws<ConflictException>(() => sut.Create(bird));
+
+        // duplicate species
+        bird = new Bird(0, "New Bird", "Test Species", new List<int> { });
+        Assert.Throws<ConflictException>(() => sut.Create(bird));
+    }
+
+    [Fact]
+    public void creating_bird_in_nonexistent_region_is_rejected()
+    {
+        BirdsService sut = CreateSut();
+        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { -1 });
 
         // Act / Assert
-        var exception = Assert.Throws<Exception>(() => birdsService.Create(bird));
+        Assert.Throws<NotFoundException>(() => sut.Create(bird));
 
         // Assert
         // Note: you may or may not want to check the message;
@@ -51,23 +57,41 @@ public class UnitTest1
     }
 
     [Fact]
-    public void Create_WithValidData_AssignsIdAndPersists()
+    public void creating_bird_with_valid_data_assigns_id_and_persists()
     {
         // Arrange
-        IRegionsRepository regionsRepo = new InMemoryRegionsRepository();
-        regionsRepo.Add(new Region(1, "Test Region"));
-
-        IBirdsRepository birdsRepo   = new InMemoryBirdsRepository();
-        var birdsService = new BirdsService(birdsRepo, regionsRepo);
+        BirdsService sut = CreateSut();
         var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { 1 });
 
         // Act
-        var result = birdsService.Create(bird);
+        var result = sut.Create(bird);
 
         // Assert
         Assert.True(result.Id > 0);
-        Assert.Equal(bird.CommonName, result.CommonName);
-        Assert.Equal(bird.Species, result.Species);
-        Assert.Equal(bird.RegionIds, result.RegionIds);
+        Assert.Equal(result, bird with { Id = result.Id });
     }
+
+    // This actually did catch a bug... needs fixed
+    [Fact]
+    public void changing_unique_field_does_not_falsely_trigger_unique_error_for_other_unique_field()
+    {
+        // Arrange
+        BirdsService sut = CreateSut();
+        var created = sut.Create(new Bird(0, "Test Bird", "Species 1", [1]));
+
+        // Act
+        Bird bird = new Bird(created.Id, "Test Bird", "Species 2", [1]);
+        Bird updated = sut.Update(bird);
+
+        // Assert
+        Assert.Equal("Test Bird", updated.CommonName);
+    }
+
+    /* TODO
+    Update — happy path
+    Update — bird not found is rejected
+    Update — duplicate against a different record is rejected (different from your existing regression test, which is the inverse)
+    Delete — happy path
+    Delete — not found is rejected
+    */
 }
