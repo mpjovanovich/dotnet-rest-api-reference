@@ -53,7 +53,6 @@ public class BirdsServiceTests
         // Note: you may or may not want to check the message;
         // typically only do so if structured messaging is part of the contract
         // Assert.Equal("Invalid region id: 1", exception.Message);
-
     }
 
     [Fact]
