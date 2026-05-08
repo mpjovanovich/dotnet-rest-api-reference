@@ -85,11 +85,72 @@ public class BirdsServiceTests
         Assert.Equal("Test Bird", updated.CommonName);
     }
 
-    /* TODO
-    Update — happy path
-    Update — bird not found is rejected
-    Update — duplicate against a different record is rejected (different from your existing regression test, which is the inverse)
-    Delete — happy path
-    Delete — not found is rejected
-    */
+    [Fact]
+    public void updating_bird_with_valid_data_persists_changes()
+    {
+        // Arrange
+        BirdsService sut = CreateSut();
+        Bird created = sut.Create(new Bird(0, "Bird 1", "Species 1", [1]));
+        Bird update = new Bird(created.Id, "Bird 1 Updated", "Species 1 Updated", [1]);
+
+        // Act
+        Bird result = sut.Update(update);
+
+        // Assert
+        Assert.Equal(update, result);
+        Assert.Equal(update, sut.GetById(created.Id));
+    }
+
+    [Fact]
+    public void updating_nonexistent_bird_is_rejected()
+    {
+        // Arrange
+        BirdsService sut = CreateSut();
+        Bird bird = new Bird(-1, "Bird 1", "Species 1", [1]);
+
+        // Act / Assert
+        Assert.Throws<NotFoundException>(() => sut.Update(bird));
+    }
+
+    [Fact]
+    public void updating_bird_with_duplicate_unique_field_on_different_record_is_rejected()
+    {
+        // Arrange
+        BirdsService sut = CreateSut();
+        Bird first = sut.Create(new Bird(0, "Bird 1", "Species 1", [1]));
+        Bird second = sut.Create(new Bird(0, "Bird 2", "Species 2", [1]));
+
+        // Act / Assert - duplicate common name
+        Bird duplicateCommonName = new Bird(second.Id, first.CommonName, second.Species, [1]);
+        Assert.Throws<ConflictException>(() => sut.Update(duplicateCommonName));
+
+        // Act / Assert - duplicate species
+        Bird duplicateSpecies = new Bird(second.Id, second.CommonName, first.Species, [1]);
+        Assert.Throws<ConflictException>(() => sut.Update(duplicateSpecies));
+    }
+
+    [Fact]
+    public void deleting_existing_bird_removes_it_and_returns_deleted_bird()
+    {
+        // Arrange
+        BirdsService sut = CreateSut();
+        Bird created = sut.Create(new Bird(0, "Bird 1", "Species 1", [1]));
+
+        // Act
+        Bird deleted = sut.Delete(created.Id);
+
+        // Assert
+        Assert.Equal(created, deleted);
+        Assert.Null(sut.GetById(created.Id));
+    }
+
+    [Fact]
+    public void deleting_nonexistent_bird_is_rejected()
+    {
+        // Arrange
+        BirdsService sut = CreateSut();
+
+        // Act / Assert
+        Assert.Throws<NotFoundException>(() => sut.Delete(-1));
+    }
 }

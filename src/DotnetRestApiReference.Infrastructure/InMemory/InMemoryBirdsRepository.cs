@@ -61,7 +61,10 @@ public class InMemoryBirdsRepository( IRegionsRepository regions ) : IBirdsRepos
         EnforceUniqueConstraints(bird, existingBird);
         EnforceRegionReferences(bird);
 
-        _birds.Add(bird);
+        // Update the List
+        int index = _birds.FindIndex(b => b.Id == bird.Id);
+        _birds[index] = bird;
+
         return bird;
     }
     public void Delete(int id) => _birds.RemoveAll(b => b.Id == id);
