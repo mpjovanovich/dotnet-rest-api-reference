@@ -1,5 +1,5 @@
 using DotnetRestApiReference.Domain.Services;
-using DotnetRestApiReference.Infrastructure.InMemory;
+using DotnetRestApiReference.Infrastructure.SQLite;
 using DotnetRestApiReference.Api.Endpoints;
 using DotnetRestApiReference.Api.Extensions;
 using DotnetRestApiReference.Domain.Interfaces.Services;
@@ -20,22 +20,27 @@ var app = builder.Build();
 app.UseImageStorage();
 
 // Composition root: build the object graph
-IRegionsRepository regionsRepo = new InMemoryRegionsRepository();
-IBirdsRepository birdsRepo = new InMemoryBirdsRepository(regionsRepo);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (connectionString is null)
+    throw new Exception("DefaultConnection connection string is not set");
 
+// IBirdsRepository birdsRepo = new SQLiteBirdsRepository(builder.Configuration.GetConnectionString("DefaultConnection"));
+IRegionsRepository regionsRepo = new SQLiteRegionsRepository(connectionString);
+
+// // If this is development, seed the database with some data.
+// if (app.Environment.IsDevelopment())
+// {
+//     Region us_east = regionsRepo.Add(new Region(0, "United States East"));
+//     birdsRepo.Add(new Bird(0, "Northern Cardinal", "Cardinalidae", [us_east.Id], "northern-cardinal.jpg"));
+//     birdsRepo.Add(new Bird(0, "Mourning Dove", "Columbidae", [us_east.Id], "mourning-dove.jpg"));
+// }
+
+// IBirdsService birdsService = new BirdsService(birdsRepo);
 IRegionsService regionsService = new RegionsService(regionsRepo);
-IBirdsService birdsService = new BirdsService(birdsRepo);
 
-// If this is development, seed the database with some data.
-if (app.Environment.IsDevelopment())
-{
-    Region us_east = regionsRepo.Add(new Region(0, "United States East"));
-    birdsRepo.Add(new Bird(0, "Northern Cardinal", "Cardinalidae", [us_east.Id], "northern-cardinal.jpg"));
-    birdsRepo.Add(new Bird(0, "Mourning Dove", "Columbidae", [us_east.Id], "mourning-dove.jpg"));
-}
 
 // Map endpoints now that services are built
-BirdsEndpoint.MapRoutes(app, birdsService);
+// BirdsEndpoint.MapRoutes(app, birdsService);
 RegionsEndpoint.MapRoutes(app, regionsService);
 
 // Run the application
