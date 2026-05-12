@@ -77,4 +77,5 @@ These topics will possibly be treated in more depth in future projects, but were
 - Authentication and authorization
 - Logging
 - Monitoring
+- Configuration management (app settings, environment variables, etc.)
 - Infrastructure as code - CI/CD pipelines, deployment, etc.
