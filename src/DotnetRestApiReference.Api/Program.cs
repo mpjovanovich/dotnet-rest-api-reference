@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-using DotnetRestApiReference.Domain.Services;
-using DotnetRestApiReference.Infrastructure.SQLite;
->>>>>>> 1b1bbc8c179c68fa53328ead55a1141851a3fddd
 using DotnetRestApiReference.Api.Endpoints;
 using DotnetRestApiReference.Api.Extensions;
 using DotnetRestApiReference.Infrastructure.Extensions;
@@ -27,7 +22,6 @@ var app = builder.Build();
 // Serve up some static images to make the API more interesting.
 app.UseImageStorage();
 
-<<<<<<< HEAD
 // // Composition root: build the object graph
 // IRegionsRepository regionsRepo = new InMemoryRegionsRepository();
 // IBirdsRepository birdsRepo = new InMemoryBirdsRepository(regionsRepo);
@@ -46,31 +40,6 @@ app.UseImageStorage();
 // Map endpoints now that services are built
 BirdsEndpoint.MapRoutes(app);
 RegionsEndpoint.MapRoutes(app);
-=======
-// Composition root: build the object graph
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-if (connectionString is null)
-    throw new Exception("DefaultConnection connection string is not set");
-
-// IBirdsRepository birdsRepo = new SQLiteBirdsRepository(builder.Configuration.GetConnectionString("DefaultConnection"));
-IRegionsRepository regionsRepo = new SQLiteRegionsRepository(connectionString);
-
-// // If this is development, seed the database with some data.
-// if (app.Environment.IsDevelopment())
-// {
-//     Region us_east = regionsRepo.Add(new Region(0, "United States East"));
-//     birdsRepo.Add(new Bird(0, "Northern Cardinal", "Cardinalidae", [us_east.Id], "northern-cardinal.jpg"));
-//     birdsRepo.Add(new Bird(0, "Mourning Dove", "Columbidae", [us_east.Id], "mourning-dove.jpg"));
-// }
-
-// IBirdsService birdsService = new BirdsService(birdsRepo);
-IRegionsService regionsService = new RegionsService(regionsRepo);
-
-
-// Map endpoints now that services are built
-// BirdsEndpoint.MapRoutes(app, birdsService);
-RegionsEndpoint.MapRoutes(app, regionsService);
->>>>>>> 1b1bbc8c179c68fa53328ead55a1141851a3fddd
 
 // Run the application
 app.Run("http://localhost:5001");
