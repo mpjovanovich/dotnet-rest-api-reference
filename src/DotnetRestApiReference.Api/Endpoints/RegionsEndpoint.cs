@@ -7,14 +7,15 @@ namespace DotnetRestApiReference.Api.Endpoints;
 
 internal static class RegionsEndpoint
 {
-    public static void MapRoutes(this IEndpointRouteBuilder app, IRegionsService regionsService)
+    public static void MapRoutes(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/regions", (CreateRegionRequest request) => CreateRegion(regionsService, request));
-        app.MapGet("/regions", () => GetRegions(regionsService));
-        app.MapGet("/regions/{id}", (int id) => GetRegion(regionsService, id));
-        app.MapPut("/regions/{id}", (int id, UpdateRegionRequest request) => UpdateRegion(regionsService, id, request));
-        app.MapDelete("/regions/{id}", (int id) => DeleteRegion(regionsService, id));
-   
+        // Now that we have a DI container on this branch, we have access to the
+        // services directly in the endpoints.
+        app.MapPost("/regions", (IRegionsService regionsService, CreateRegionRequest request) => CreateRegion(regionsService, request));
+        app.MapGet("/regions", (IRegionsService regionsService) => GetRegions(regionsService));
+        app.MapGet("/regions/{id}", (IRegionsService regionsService, int id) => GetRegion(regionsService, id));
+        app.MapPut("/regions/{id}", (IRegionsService regionsService, int id, UpdateRegionRequest request) => UpdateRegion(regionsService, id, request));
+        app.MapDelete("/regions/{id}", (IRegionsService regionsService, int id) => DeleteRegion(regionsService, id));
     }
 
     private static RegionResponse ToResponse(Region r) =>
