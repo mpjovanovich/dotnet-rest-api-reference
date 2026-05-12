@@ -1,21 +1,21 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using DotnetRestApiReference.Api.DTOs;
 using DotnetRestApiReference.Domain.Models;
 using DotnetRestApiReference.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DotnetRestApiReference.Api.Endpoints;
 
 internal static class BirdsEndpoint
 {
-    public static void MapRoutes(this IEndpointRouteBuilder app, IBirdsService birdsService)
+    public static void MapRoutes(this IEndpointRouteBuilder app)
     {
-        // Since we have no DI container we will use closures via lambda
-        // expressions to pass the service instance to the endpoint.
-        app.MapPost("/birds", (CreateBirdRequest request) => CreateBird(birdsService, request));
-        app.MapGet("/birds", () => GetBirds(birdsService));
-        app.MapGet("/birds/{id}", (int id) => GetBird(birdsService, id));
-        app.MapPut("/birds/{id}", (int id, UpdateBirdRequest request) => UpdateBird(birdsService, id, request));
-        app.MapDelete("/birds/{id}", (int id) => DeleteBird(birdsService, id));
+        // Now that we have a DI container on this branch, we have access to the
+        // services directly in the endpoints.
+        app.MapPost("/birds", (IBirdsService birdsService, CreateBirdRequest request) => CreateBird(birdsService, request));
+        app.MapGet("/birds", (IBirdsService birdsService) => GetBirds(birdsService));
+        app.MapGet("/birds/{id}", (IBirdsService birdsService, int id) => GetBird(birdsService, id));
+        app.MapPut("/birds/{id}", (IBirdsService birdsService, int id, UpdateBirdRequest request) => UpdateBird(birdsService, id, request));
+        app.MapDelete("/birds/{id}", (IBirdsService birdsService, int id) => DeleteBird(birdsService, id));
     }
 
     private static string GetImageUrl(string imageUrl) =>

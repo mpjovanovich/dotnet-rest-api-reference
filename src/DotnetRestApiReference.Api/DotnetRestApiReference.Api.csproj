@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DotnetRestApiReference.Domain\DotnetRestApiReference.Domain.csproj" />
     <ProjectReference Include="..\DotnetRestApiReference.Infrastructure\DotnetRestApiReference.Infrastruture.csproj" />
   </ItemGroup>
