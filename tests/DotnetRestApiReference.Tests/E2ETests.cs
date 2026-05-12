@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 
+namespace DotnetRestApiReference.Tests;
+
 public class E2ETests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
@@ -17,7 +19,6 @@ public class E2ETests : IClassFixture<WebApplicationFactory<Program>>
             .WithWebHostBuilder(builder => builder.UseEnvironment("Testing"))
             .CreateClient();
     }
-
 
     // This ended up being an end-to-end test rather than an integration test,
     // but that's fine for this project.
