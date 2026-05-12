@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DotnetRestApiReference.Infrastructure.Extensions;
 
-public static class InfrastructureServiceCollectionExtensions
+public static class InMemoryInfrastructureServiceCollectionExtensions
 {
     public static IServiceCollection AddInMemoryInfrastructure(this IServiceCollection services)
     {

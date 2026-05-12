@@ -14,9 +14,10 @@ builder.Services.AddProblemDetails();
 
 // This is what adds services and repositories to the DI container.
 // In this branch we no longer manually build the object graph.
-builder.Services.AddInMemoryInfrastructure();
-builder.Services.AddDevelopmentDataSeeding(builder.Environment);
-builder.Services.AddInMemoryDomain();
+builder.Services.AddSQLiteInfrastructure();
+// TODO: won't work yet - no DB schema created
+// builder.Services.AddDevelopmentDataSeeding(builder.Environment);
+builder.Services.AddDomain();
 
 var app = builder.Build();
 

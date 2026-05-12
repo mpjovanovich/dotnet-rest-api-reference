@@ -6,7 +6,7 @@ namespace DotnetRestApiReference.Domain.Extensions;
 
 public static class DomainServiceCollectionExtensions
 {
-    public static IServiceCollection AddInMemoryDomain(this IServiceCollection services)
+    public static IServiceCollection AddDomain(this IServiceCollection services)
     {
         services.AddScoped<IRegionsService, RegionsService>();
         services.AddScoped<IBirdsService, BirdsService>();
