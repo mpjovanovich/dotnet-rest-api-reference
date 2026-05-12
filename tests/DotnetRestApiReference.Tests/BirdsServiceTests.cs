@@ -24,7 +24,7 @@ public class BirdsServiceTests
         // Arrange
         BirdsService sut = CreateSut();
 
-        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { });
+        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { }, "test.jpg");
         sut.Create(bird);
 
         // This has multiple tests / assertions under a common setup.  It could
@@ -32,11 +32,11 @@ public class BirdsServiceTests
         // small project.
 
         // duplicate common name
-        bird = new Bird(0, "Test Bird", "New Species", new List<int> { });
+        bird = new Bird(0, "Test Bird", "New Species", new List<int> { }, "test.jpg");
         Assert.Throws<ConflictException>(() => sut.Create(bird));
 
         // duplicate species
-        bird = new Bird(0, "New Bird", "Test Species", new List<int> { });
+        bird = new Bird(0, "New Bird", "Test Species", new List<int> { }, "test.jpg");
         Assert.Throws<ConflictException>(() => sut.Create(bird));
     }
 
@@ -44,7 +44,7 @@ public class BirdsServiceTests
     public void creating_bird_in_nonexistent_region_is_rejected()
     {
         BirdsService sut = CreateSut();
-        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { -1 });
+        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { -1 }, "test.jpg");
 
         // Act / Assert
         Assert.Throws<NotFoundException>(() => sut.Create(bird));
@@ -60,7 +60,7 @@ public class BirdsServiceTests
     {
         // Arrange
         BirdsService sut = CreateSut();
-        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { 1 });
+        var bird = new Bird(0, "Test Bird", "Test Species", new List<int> { 1 }, "test.jpg");
 
         // Act
         var result = sut.Create(bird);
@@ -75,10 +75,10 @@ public class BirdsServiceTests
     {
         // Arrange
         BirdsService sut = CreateSut();
-        var created = sut.Create(new Bird(0, "Test Bird", "Species 1", [1]));
+        var created = sut.Create(new Bird(0, "Test Bird", "Species 1", [1], "test.jpg"));
 
         // Act - update species but leave common name the same
-        Bird bird = new Bird(created.Id, "Test Bird", "Species 2", [1]);
+        Bird bird = new Bird(created.Id, "Test Bird", "Species 2", [], "test2.jpg");
         Bird updated = sut.Update(bird);
 
         // Assert
@@ -90,8 +90,8 @@ public class BirdsServiceTests
     {
         // Arrange
         BirdsService sut = CreateSut();
-        Bird created = sut.Create(new Bird(0, "Bird 1", "Species 1", [1]));
-        Bird update = new Bird(created.Id, "Bird 1 Updated", "Species 1 Updated", [1]);
+        Bird created = sut.Create(new Bird(0, "Bird 1", "Species 1", [1], "test.jpg"));
+        Bird update = new Bird(created.Id, "Bird 1 Updated", "Species 1 Updated", [1], "test.jpg");
 
         // Act
         Bird result = sut.Update(update);
@@ -106,7 +106,7 @@ public class BirdsServiceTests
     {
         // Arrange
         BirdsService sut = CreateSut();
-        Bird bird = new Bird(-1, "Bird 1", "Species 1", [1]);
+        Bird bird = new Bird(-1, "Bird 1", "Species 1", [1], "test.jpg");
 
         // Act / Assert
         Assert.Throws<NotFoundException>(() => sut.Update(bird));
@@ -117,15 +117,15 @@ public class BirdsServiceTests
     {
         // Arrange
         BirdsService sut = CreateSut();
-        Bird first = sut.Create(new Bird(0, "Bird 1", "Species 1", [1]));
-        Bird second = sut.Create(new Bird(0, "Bird 2", "Species 2", [1]));
+        Bird first = sut.Create(new Bird(0, "Bird 1", "Species 1", [1], "test.jpg"));
+        Bird second = sut.Create(new Bird(0, "Bird 2", "Species 2", [1], "test2.jpg"));
 
         // Act / Assert - duplicate common name
-        Bird duplicateCommonName = new Bird(second.Id, first.CommonName, second.Species, [1]);
+        Bird duplicateCommonName = new Bird(second.Id, first.CommonName, second.Species, [1], "test.jpg");
         Assert.Throws<ConflictException>(() => sut.Update(duplicateCommonName));
 
         // Act / Assert - duplicate species
-        Bird duplicateSpecies = new Bird(second.Id, second.CommonName, first.Species, [1]);
+        Bird duplicateSpecies = new Bird(second.Id, second.CommonName, first.Species, second.RegionIds, second.ImageUrl);
         Assert.Throws<ConflictException>(() => sut.Update(duplicateSpecies));
     }
 
@@ -134,7 +134,7 @@ public class BirdsServiceTests
     {
         // Arrange
         BirdsService sut = CreateSut();
-        Bird created = sut.Create(new Bird(0, "Bird 1", "Species 1", [1]));
+        Bird created = sut.Create(new Bird(0, "Bird 1", "Species 1", [1], "test.jpg"));
 
         // Act
         Bird deleted = sut.Delete(created.Id);

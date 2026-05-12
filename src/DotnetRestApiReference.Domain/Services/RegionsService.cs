@@ -5,29 +5,14 @@ using DotnetRestApiReference.Domain.Models;
 namespace DotnetRestApiReference.Domain.Services;
 
 public sealed class RegionsService(
-    IRegionsRepository regionsRepository,
-    IBirdsRepository birdsRepository
+    IRegionsRepository regionsRepository
 ) : IRegionsService
 {
-    /* ************************************************************
-    // Private Methods
-    * ************************************************************/
-    // private bool CheckUniqueConstraints(Region region)
-    // {
-    //     return !regionsRepository.ExistsByName(region.Name);
-    // }
-
     /* ************************************************************
     // Public Methods
     * ************************************************************/
     public Region Create(Region region)
     {
-        // // Check if region unique constraints are met
-        // if (!CheckUniqueConstraints(region))
-        // {
-        //     throw new Exception("Region unique constraints not met");
-        // }
-
         // Create the region
         Region newRegion = new Region(0, region.Name);
         newRegion = regionsRepository.Add(newRegion);
@@ -42,12 +27,6 @@ public sealed class RegionsService(
         {
             throw new Exception("Region not found");
         }
-
-        // // Check if region has birds
-        // if (birdsRepository.AnyInRegion(id))
-        // {
-        //     throw new Exception("Region has birds");
-        // }
 
         // Delete the region
         regionsRepository.Delete(id);
@@ -68,18 +47,6 @@ public sealed class RegionsService(
 
     public Region Update(Region region)
     {
-        // // Check if region exists
-        // if (regionsRepository.GetById(region.Id) is null)
-        // {
-        //     throw new Exception("Region not found");
-        // }
-
-        // // Check if region unique constraints are met
-        // if (!CheckUniqueConstraints(region))
-        // {
-        //     throw new Exception("Region unique constraints not met");
-        // }
-
         // Update the region
         region = regionsRepository.Update(region);
         return region;

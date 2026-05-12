@@ -16,7 +16,7 @@ app.UseImageStorage();
 IRegionsRepository regionsRepo = new InMemoryRegionsRepository();
 IBirdsRepository birdsRepo = new InMemoryBirdsRepository(regionsRepo);
 
-IRegionsService regionsService = new RegionsService(regionsRepo, birdsRepo);
+IRegionsService regionsService = new RegionsService(regionsRepo);
 IBirdsService birdsService = new BirdsService(birdsRepo);
 
 // Map endpoints now that services are built

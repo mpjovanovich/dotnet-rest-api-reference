@@ -18,8 +18,8 @@ internal static class BirdsEndpoint
         app.MapDelete("/birds/{id}", (int id) => DeleteBird(birdsService, id));
     }
 
-    private static BirdResponse ToResponse(Bird r) =>
-        new (r.Id, r.CommonName, r.Species, r.RegionIds);
+    private static BirdResponse ToResponse(Bird b) =>
+        new (b.Id, b.CommonName, b.Species, b.RegionIds, b.ImageUrl);
 
     private static Ok<List<BirdResponse>> GetBirds(IBirdsService birdsService) =>
         TypedResults.Ok(birdsService.GetAll().Select(ToResponse).ToList());
@@ -65,7 +65,7 @@ internal static class BirdsEndpoint
         * Delegate to service layer
         */
         // Create the bird
-        var bird = birdsService.Create(new Bird(0, request.CommonName, request.Species, request.RegionIds));
+        var bird = birdsService.Create(new Bird(0, request.CommonName, request.Species, request.RegionIds, request.ImageUrl));
 
         /*
         * Return HTTP Response
@@ -87,7 +87,7 @@ internal static class BirdsEndpoint
         /*
         * Delegate to service layer
         */
-        var bird = birdsService.Update(new Bird(id, request.CommonName, request.Species, request.RegionIds));
+        var bird = birdsService.Update(new Bird(id, request.CommonName, request.Species, request.RegionIds, request.ImageUrl));
 
         /*
         * Return HTTP Response

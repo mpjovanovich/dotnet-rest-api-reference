@@ -15,7 +15,7 @@ public sealed class BirdsService(
     public Bird Create(Bird bird)
     {
         // Create the bird
-        Bird newBird = new Bird(0, bird.CommonName, bird.Species, bird.RegionIds);
+        Bird newBird = new Bird(0, bird.CommonName, bird.Species, bird.RegionIds, bird.ImageUrl);
         newBird = birdsRepository.Add(newBird);
         return newBird;
     }
