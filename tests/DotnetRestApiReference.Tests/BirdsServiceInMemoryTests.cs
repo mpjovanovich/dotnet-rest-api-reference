@@ -6,7 +6,7 @@ using DotnetRestApiReference.Infrastructure.InMemory;
 
 namespace DotnetRestApiReference.Tests;
 
-public class BirdsServiceTests
+public class BirdsServiceInMemoryTests
 {
 
     private static BirdsService CreateSut()
