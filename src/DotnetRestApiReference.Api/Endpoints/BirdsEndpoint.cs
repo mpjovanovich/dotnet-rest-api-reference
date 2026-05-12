@@ -18,8 +18,11 @@ internal static class BirdsEndpoint
         app.MapDelete("/birds/{id}", (int id) => DeleteBird(birdsService, id));
     }
 
+    private static string GetImageUrl(string imageUrl) =>
+        Path.Combine("/images", imageUrl);
+
     private static BirdResponse ToResponse(Bird b) =>
-        new (b.Id, b.CommonName, b.Species, b.RegionIds, b.ImageUrl);
+        new (b.Id, b.CommonName, b.Species, b.RegionIds, GetImageUrl(b.ImageUrl));
 
     private static Ok<List<BirdResponse>> GetBirds(IBirdsService birdsService) =>
         TypedResults.Ok(birdsService.GetAll().Select(ToResponse).ToList());

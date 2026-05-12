@@ -4,6 +4,7 @@ using DotnetRestApiReference.Api.Endpoints;
 using DotnetRestApiReference.Api.Extensions;
 using DotnetRestApiReference.Domain.Interfaces.Services;
 using DotnetRestApiReference.Domain.Interfaces.Repositories;
+using DotnetRestApiReference.Domain.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
@@ -18,6 +19,14 @@ IBirdsRepository birdsRepo = new InMemoryBirdsRepository(regionsRepo);
 
 IRegionsService regionsService = new RegionsService(regionsRepo);
 IBirdsService birdsService = new BirdsService(birdsRepo);
+
+// If this is development, seed the database with some data.
+if (app.Environment.IsDevelopment())
+{
+    Region us_east = regionsRepo.Add(new Region(0, "United States East"));
+    birdsRepo.Add(new Bird(0, "Northern Cardinal", "Cardinalidae", [us_east.Id], "northern-cardinal.jpg"));
+    birdsRepo.Add(new Bird(0, "Mourning Dove", "Columbidae", [us_east.Id], "mourning-dove.jpg"));
+}
 
 // Map endpoints now that services are built
 BirdsEndpoint.MapRoutes(app, birdsService);

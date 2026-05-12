@@ -1,8 +1,8 @@
 namespace DotnetRestApiReference.Api.DTOs;
 
 // Requests
-internal record CreateRegionRequest(string Name);
-internal record UpdateRegionRequest(string Name);
+public record CreateRegionRequest(string Name);
+public record UpdateRegionRequest(string Name);
 
 // Responses
-internal record RegionResponse(int Id, string Name);
+public record RegionResponse(int Id, string Name);
