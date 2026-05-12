@@ -6,6 +6,12 @@ using DotnetRestApiReference.Domain.Interfaces.Services;
 using DotnetRestApiReference.Domain.Interfaces.Repositories;
 using DotnetRestApiReference.Domain.Models;
 
+/*
+USAGE:
+build: dotnet build
+test: dotnet test
+run: ASPNETCORE_ENVIRONMENT=Development dotnet run --project src/DotnetRestApiReference.Api
+*/
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
 var app = builder.Build();
